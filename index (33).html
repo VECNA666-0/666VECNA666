@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>$VEN – Airdrop • Polygon</title>
+  <meta name="description" content="$VEN — фан‑сообщество, вдохновлённое атмосферой «Очень странных дел». Забери 6 666 $VEN. Газ оплачивает команда (клейм по подписи)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.0/ethers.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    :root{--bg:#000;--txt:#eaeaf2;--mut:#a4a8c5;--pill:#0b1020;--red:#ef4444;--vio:#8b5cf6;--card:rgba(12,16,36,.86)}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;color:var(--txt);background:#000;font-family:"Space Grotesk",system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    .bg{position:fixed;inset:0;background:url('https://purple-accused-scorpion-11.mypinata.cloud/ipfs/bafkreibnrglhwfkmatn3q4l2oat3uzry2hzplhk7reeitlf4m3tavshzgq') center/cover no-repeat;filter:saturate(1.05) brightness(.85);opacity:.35;z-index:-2}
+    .glow{position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(1200px 600px at 10% 0%, rgba(139,92,246,.25), transparent 50%),radial-gradient(1200px 600px at 90% 0%, rgba(239,68,68,.28), transparent 55%)}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
+    header{display:flex;align-items:center;gap:14px;justify-content:space-between;padding:12px 14px;border-radius:16px;background:linear-gradient(180deg,rgba(12,16,36,.9),rgba(8,10,20,.75));border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(6px);position:sticky;top:10px;z-index:10}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--red),var(--vio));box-shadow:0 10px 30px rgba(239,68,68,.35)}
+    .title{font-family:Cinzel,serif;letter-spacing:.14em;text-transform:uppercase;margin:0;color:var(--red);text-shadow:0 0 14px rgba(239,68,68,.55)}
+    .mut{color:var(--mut)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .btn{appearance:none;border:0;border-radius:12px;padding:11px 16px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:10px}
+    .btn-primary{background:linear-gradient(90deg,#f97316,#ef4444);color:#0b1020;box-shadow:0 12px 30px rgba(248,113,113,.35)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--txt)}
+    .hero{margin-top:16px;display:grid;grid-template-columns:1fr;gap:18px}
+    .card{border-radius:18px;border:1px solid rgba(255,255,255,.08);background:var(--card);backdrop-filter:blur(6px);padding:18px}
+    .big{font-size:30px;font-weight:800;line-height:1.15;margin:8px 0 8px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:4px 10px;border-radius:999px;background:rgba(2,6,23,.75);border:1px solid rgba(148,163,184,.35);font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.12em}
+    .grid{display:grid;grid-template-columns:1fr;gap:18px}
+    @media(min-width:1000px){.grid{grid-template-columns:1.4fr .6fr}}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+    .side{position:sticky;top:88px;height:max-content}
+    .kpi{font-size:22px;font-weight:900}
+    .small{font-size:12px}
+    footer{margin:30px 0;color:#95a1c8;font-size:12px;text-align:center}
+    .warn{padding:10px 12px;border:1px solid rgba(239,68,68,.4);background:rgba(239,68,68,.1);border-radius:12px}
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="glow"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <div class="title">$VEN</div>
+          <div class="mut">Polygon • chainId 137 • Газ за клейм оплачивает команда</div>
+        </div>
+      </div>
+      <div class="row">
+        <button id="connectTop" class="btn btn-ghost">Подключить кошелёк</button>
+        <a href="#claim" class="btn btn-primary">Забрать 6 666 $VEN</a>
+      </div>
+    </header>
+
+    <section class="hero grid">
+      <article class="card">
+        <span class="pill">Вдохновлено атмосферой «Очень странных дел» (неофициально)</span>
+        <h1 class="big">Добро пожаловать в Изнанку. $VEN — мем‑токен сообщества, где неоновая ностальгия 80‑х встречается с ончейн‑культурой Polygon.</h1>
+        <p>Мы — фан‑сообщество, вдохновлённое эстетикой сериала: красные огоньки гирлянд, туман, синтвейв и таинственные порталы. $VEN — это не ценные бумаги и не обещания доходности. Это коллекционный токен участия в движении, зачёте квестов и розыгрышах, внутриигровых историях и фан‑ивентах. Никакого пресейла и фонда — только комьюнити, ончейн‑прозрачность и честные правила.</p>
+        <p><strong>Зачем нужен $VEN?</strong> За активность и участие вы открываете доступ к анонсам, ролевым «уровням» в чате, ранним дропам и сезонным «охотам» за артефактами. В партнёрских сервисах можно получать скидки и бонусы при оплате $VEN. Для разработчиков будут лёгкие виджеты, чтобы принимать $VEN/USDC.</p>
+        <p><strong>Как мы стартуем?</strong> Ликвидность — Polygon. Базовые пары на DEX, а раздачи — через клейм по подписи: вы подписываете сообщение, а отправку делает кошелёк команды. Так пользователи не платят газ, а клеймы не требуют approve/transfer от вашего адреса.</p>
+        <div class="warn small">Важно: проект фанатский и не связан с правообладателями сериала. Все права на оригинальные изображения и названия принадлежат их владельцам. Мы лишь передаём настроение 80‑х.</div>
+      </article>
+
+      <aside id="claim" class="card side">
+        <div class="kpi">Забери 6 666 <span id="symA">VEN</span></div>
+        <div class="mut" style="margin-bottom:8px">Клейм по подписи. Газ платит команда.</div>
+        <div class="row" style="margin-bottom:8px">
+          <button id="connectBtn" class="btn btn-ghost">Подключить кошелёк</button>
+          <button id="claimBtn" class="btn btn-primary" disabled>Получить 6 666 <span id="symB">VEN</span></button>
+        </div>
+        <div class="mut small">Токен: <span id="tokenAddr" class="mono"></span></div>
+        <div class="mut small">Ваш адрес: <span id="me" class="mono">—</span></div>
+        <div id="status" class="mut" style="margin-top:8px"></div>
+        <hr style="opacity:.12;margin:12px 0">
+        <div class="row">
+          <a id="scan" class="mut small" target="_blank" rel="noopener">Polygonscan</a>
+          <a id="dex" class="mut small" target="_blank" rel="noopener">DEXScreener</a>
+          <a id="qs" class="mut small" target="_blank" rel="noopener">QuickSwap</a>
+        </div>
+        <div class="row" style="margin-top:8px"><button id="addMM" class="btn btn-ghost">Добавить $VEN в MetaMask</button></div>
+      </aside>
+    </section>
+
+    <section class="card">
+      <h2 style="margin:0 0 10px;font-family:Cinzel,serif;letter-spacing:.08em">История</h2>
+      <p>Где‑то между радиошумом и мерцанием гирлянд открывается портал на Polygon. Ходят легенды, что $VEN родился, когда на старом магнитофоне кто‑то нажал «REC» и записал дыхание Изнанки. Мы называем это «сигнал». Сигнал зовёт тех, кто любит 80‑е, синтвейв и чёрный экран консоли с зелёным курсором. Здесь каждый может стать охотником за пасхалками, а цифровые реликвии появляются у тех, кто внимателен к ончейн‑следам.</p>
+      <p>Команда публикует миссии, охоты и розыгрыши. Время от времени из портала выпадает лут — и сегодня это 6 666 $VEN. Никаких маркетинговых трюков, только прозрачные транзакции и удовольствие от игры в криптопространстве.</p>
+    </section>
+
+    <footer>© <span id="year"></span> $VEN Fan Community. Не является инвестсоветом. Пользуйтесь с умом.</footer>
+  </div>
+
+  <script>
+  (function(){
+    // ===== Конфиг
+    const TOKEN_ADDRESS = '0xfffB251755865a815C7817e5ab9ABbe1FEf71435'; // VEN (Polygon), checksummed
+    const CHAIN_ID = 137; // Polygon
+    const PER_WALLET = 6666; // штук на пользователя
+
+    // Рабочий backend на Render (смените путь при необходимости)
+    const BACKEND_URL = 'https://ven-airdrop-backend-1.onrender.com/api/claim';
+
+    // ====== Элементы
+    const $ = (id)=>document.getElementById(id);
+    const connectBtn = $('connectBtn');
+    const connectTop = $('connectTop');
+    const claimBtn = $('claimBtn');
+    const statusEl = $('status');
+    const meEl = $('me');
+    const tokenAddrEl = $('tokenAddr');
+    const symA = $('symA');
+    const symB = $('symB');
+    const scan = $('scan');
+    const dex = $('dex');
+    const qs  = $('qs');
+
+    tokenAddrEl.textContent = TOKEN_ADDRESS;
+    scan.href = `https://polygonscan.com/token/${TOKEN_ADDRESS}`;
+    dex.href  = `https://dexscreener.com/polygon/${TOKEN_ADDRESS}`;
+    qs.href   = `https://quickswap.exchange/#/swap?currency0=USDC&currency1=${TOKEN_ADDRESS}`;
+    $('year').textContent = new Date().getFullYear();
+
+    // ====== Загрузка меты токена
+    let providerRead = new ethers.JsonRpcProvider('https://polygon-rpc.com');
+    let symbol = 'VEN', decimals = 18;
+    (async()=>{
+      try{
+        const erc = new ethers.Contract(TOKEN_ADDRESS,[
+          'function symbol() view returns (string)',
+          'function decimals() view returns (uint8)'
+        ],providerRead);
+        symbol = await erc.symbol().catch(()=>symbol);
+        decimals = await erc.decimals().catch(()=>decimals);
+      }catch(e){}
+      symA.textContent = symbol; symB.textContent = symbol;
+    })();
+
+    // ====== Web3
+    let provider, signer, account;
+    async function connect(){
+      if(!window.ethereum){ alert('Нужен MetaMask или совместимый кошелёк'); return; }
+      provider = new ethers.BrowserProvider(window.ethereum);
+      await provider.send('eth_requestAccounts', []);
+      const net = await provider.getNetwork();
+      if(Number(net.chainId)!==CHAIN_ID){
+        try{
+          await window.ethereum.request({ method:'wallet_switchEthereumChain', params:[{ chainId:'0x89' }] });
+        }catch(e){
+          if(e.code===4902){
+            await window.ethereum.request({
+              method:'wallet_addEthereumChain',
+              params:[{ chainId:'0x89', chainName:'Polygon', nativeCurrency:{name:'POL',symbol:'POL',decimals:18}, rpcUrls:['https://polygon-rpc.com'], blockExplorerUrls:['https://polygonscan.com'] }]
+            });
+          } else {
+            statusEl.textContent = 'Переключите сеть на Polygon';
+            return;
+          }
+        }
+      }
+      signer = await provider.getSigner();
+      account = await signer.getAddress();
+      meEl.textContent = account;
+      claimBtn.disabled = false;
+      statusEl.textContent = 'Готово к клейму';
+    }
+
+    connectBtn.onclick = connect; connectTop.onclick = connect;
+
+    // ====== Add to MetaMask
+    $('addMM').onclick = async()=>{
+      if(!window.ethereum){ alert('MetaMask не найден'); return; }
+      try{
+        await window.ethereum.request({
+          method:'wallet_watchAsset',
+          params:{ type:'ERC20', options:{ address:TOKEN_ADDRESS, symbol:symbol, decimals:decimals, image:location.origin+'/icon.png' } }
+        });
+      }catch(e){ console.warn(e); }
+    };
+
+    // ====== Claim (EIP-712 подпись → сервер)
+    claimBtn.onclick = async()=>{
+      if(!signer||!account){ statusEl.textContent = 'Подключите кошелёк'; return; }
+      statusEl.textContent = 'Подписываем заявку…';
+      const now = Math.floor(Date.now()/1000);
+      const msg = {
+        claimer: account,
+        amount: ethers.parseUnits(String(PER_WALLET), decimals).toString(),
+        nonce: Math.floor(Math.random()*1e9),
+        deadline: now + 15*60
+      };
+      const domain = { name:'VEN Airdrop', version:'1', chainId: CHAIN_ID };
+      const types = { Claim:[
+        {name:'claimer', type:'address'},
+        {name:'amount', type:'uint256'},
+        {name:'nonce', type:'uint256'},
+        {name:'deadline', type:'uint256'}
+      ]};
+      let sig; try{ sig = await signer.signTypedData(domain, types, msg); }catch(e){ statusEl.textContent='Подпись отменена'; return; }
+      statusEl.textContent = 'Отправляем на сервер…';
+      try{
+        const r = await fetch(BACKEND_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ token:TOKEN_ADDRESS, ...msg, signature:sig }) });
+        const data = await r.json().catch(()=>({}));
+        if(!r.ok){ statusEl.textContent = 'Ошибка: '+(data.error||r.statusText); return; }
+        statusEl.textContent = 'Успех! Транзакция: '+(data.txHash||'отправлена');
+        claimBtn.disabled = true;
+      }catch(e){ statusEl.textContent = 'Сервер недоступен'; }
+    };
+  })();
+  </script>
+</body>
+</html>
