@@ -1,0 +1,6 @@
+{
+  "name": "ven-airdrop-backend",
+  "type": "module",
+  "dependencies": { "express":"^4.19.2", "cors":"^2.8.5", "ethers":"^6.13.0", "dotenv":"^16.4.5" },
+  "scripts": { "start": "node server.js" }
+}
