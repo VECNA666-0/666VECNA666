@@ -51,5 +51,7 @@ app.post('/api/claim', async (req, res) => {
   } catch(e){ console.error(e); res.status(500).json({error:'Server error'}); }
 });
 
-const PORT = process.env.PORT || 8787;
-app.listen(PORT, () => console.log('Airdrop server on :' + PORT));
+curl -X POST https://<твой-сабдомен>.onrender.com/api/claim \
+  -H "Content-Type: application/json" \
+  -d '{"token":"0xfffB251755865a815C7817e5ab9ABbe1FEf71435","claimer":"0x0000000000000000000000000000000000000000","amount":"1","nonce":1,"deadline":9999999999,"signature":"0x"}'
+
