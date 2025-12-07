@@ -78,3 +78,4 @@ app.post('/api/claim', async (req, res) => {
 
 const PORT = process.env.PORT || 8787;
 app.listen(PORT, () => console.log('Airdrop server on :' + PORT));
+app.get("/health", (req,res)=>res.json({ok:true}));
